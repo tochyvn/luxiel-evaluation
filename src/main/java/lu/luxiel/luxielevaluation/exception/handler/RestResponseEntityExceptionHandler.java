@@ -51,5 +51,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
+	
 
 }
