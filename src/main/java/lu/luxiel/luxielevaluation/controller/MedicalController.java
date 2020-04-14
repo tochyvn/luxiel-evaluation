@@ -73,6 +73,12 @@ public class MedicalController {
 		return new ResponseEntity<>(maladie, HttpStatus.OK);
 	}
 	
+	@PostMapping("/maladie")
+	public ResponseEntity<Void> addMaladie(@RequestBody Maladie maladie) {
+		medicalService.addMaladie(maladie);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+	
 	@PostMapping("/find")
 	public ResponseEntity<List<ResultatRecherche>> findMaladieBySymptome(@RequestBody Set<Symptome> symptomes) {
 		List<ResultatRecherche> maladies = medicalService.findMaladieBySymptome(symptomes);
