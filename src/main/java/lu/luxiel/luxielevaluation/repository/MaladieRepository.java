@@ -8,4 +8,5 @@ import lu.luxiel.luxielevaluation.entity.Maladie;
 @Repository
 public interface MaladieRepository extends JpaRepository<Maladie, Integer>{
 
+	Maladie findByName(String name);
 }

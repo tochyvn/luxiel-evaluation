@@ -12,24 +12,53 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import lu.luxiel.luxielevaluation.exception.AlreadyExistEntityException;
+import lu.luxiel.luxielevaluation.exception.BadRequestException;
+import lu.luxiel.luxielevaluation.exception.MaladieNotFoundException;
+import lu.luxiel.luxielevaluation.exception.SymptomeNotFoundException;
 
-import lu.luxiel.luxielevaluation.exception.EntityNotFoundException;
-
-@ControllerAdvice
+@RestControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(value = { EntityNotFoundException.class })
-	protected ResponseEntity<Object> handleNotFound(EntityNotFoundException ex, WebRequest request) {
+	@ExceptionHandler(value = { MaladieNotFoundException.class })
+	protected ResponseEntity<Object> handleNotFound(MaladieNotFoundException ex, WebRequest request) {
 		Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
-        body.put("message", "Entity not found");
+        body.put("message", ex.getMessage());
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(value = { SymptomeNotFoundException.class })
+	protected ResponseEntity<Object> symptomeNotFound(SymptomeNotFoundException ex, WebRequest request) {
+		Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(value = { AlreadyExistEntityException.class })
+	protected ResponseEntity<Object> alreadyExists(AlreadyExistEntityException ex, WebRequest request) {
+		Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+	}
+	
+	@ExceptionHandler(value = { BadRequestException.class })
+	protected ResponseEntity<Object> badRequest(BadRequestException ex, WebRequest request) {
+		Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
 	}
 	
 	@Override

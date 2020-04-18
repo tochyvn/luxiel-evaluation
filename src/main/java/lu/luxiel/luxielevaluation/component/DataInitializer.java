@@ -11,8 +11,12 @@ import org.springframework.stereotype.Component;
 
 import lu.luxiel.luxielevaluation.entity.Maladie;
 import lu.luxiel.luxielevaluation.entity.Symptome;
-import lu.luxiel.luxielevaluation.exception.EntityNotFoundException;
-import lu.luxiel.luxielevaluation.service.MedicalService;
+import lu.luxiel.luxielevaluation.exception.AlreadyExistEntityException;
+import lu.luxiel.luxielevaluation.exception.BadRequestException;
+import lu.luxiel.luxielevaluation.exception.InitializationRuntimeException;
+import lu.luxiel.luxielevaluation.exception.SymptomeNotFoundException;
+import lu.luxiel.luxielevaluation.service.MaladieService;
+import lu.luxiel.luxielevaluation.service.SymptomeService;
 import lu.luxiel.luxielevaluation.utils.Helper;
 
 @Component
@@ -23,13 +27,16 @@ public class DataInitializer {
 	private static final int NOMBRE_MALADIES = 7;
 	
 	@Autowired
-	private MedicalService medicalService;
+	private MaladieService maladieService;
+	
+	@Autowired
+	private SymptomeService symptomeService;
 	
 	List<Symptome> symptomes;
 	
 	List<Maladie> maladies;
 
-	public void initializeData() throws EntityNotFoundException {
+	public void initializeData() {
 		this.symptomes = new ArrayList<>();
 		initializeSymptomes();
 		initializeMaladies();
@@ -63,7 +70,11 @@ public class DataInitializer {
 				new Symptome("Pâleur")
 				);
 		symptomes.forEach(symptome -> {
-			medicalService.addSymptome(symptome);
+			try {
+				symptomeService.addSymptome(symptome);
+			} catch (AlreadyExistEntityException | BadRequestException e) {
+				throw new InitializationRuntimeException(e);
+			}
 			this.symptomes.add(symptome);
 		});
 	}
@@ -71,16 +82,21 @@ public class DataInitializer {
 	/**
 	 * Initialisation de 7 Maladies
 	 */
-	private void initializeMaladies() throws EntityNotFoundException
+	private void initializeMaladies()
 	{
 		for(int i = 0; i <= NOMBRE_MALADIES; i++) {
 			Maladie maladie = new Maladie();
 			maladie.setName("Maladie_" + i);
 			generateRandomSymptoms().forEach(id -> {
-				Symptome symptome = medicalService.getSymptoneById(id).get();
-				maladie.addSymptome(symptome);
+				Symptome symptome;
+				try {
+					symptome = symptomeService.getSymptoneById(id);
+					maladie.addSymptome(symptome);
+				} catch (SymptomeNotFoundException e) {
+					throw new InitializationRuntimeException(e);
+				}
 			});
-			medicalService.addMaladie(maladie);
+			maladieService.addMaladie(maladie);
 		}
 	}
 	
