@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.6.RELEASE</version>
+		<relativePath />
+	</parent>
+	<groupId>lu.luxiel</groupId>
+	<artifactId>luxiel-evaluation</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>luxiel-evaluation</name>
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<!-- <exclusions> <exclusion> <groupId>org.junit.vintage</groupId> <artifactId>junit-vintage-engine</artifactId> 
+				</exclusion> </exclusions> -->
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.8.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.8.0</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>3.0.0-M1</version>
+				<configuration>
+					<tagNameFormat>v@{project.version}</tagNameFormat>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<distributionManagement>
+		<!-- Publish the versioned releases here -->
+		<repository>
+			<id>nexus_repo</id>
+			<name>Mon repo Nexus</name>
+			<url>http://localhost:9090/nexus-2.14.16-01/content/repositories/releases/</url>
+		</repository>
+
+		<!-- Publish the versioned snapshots here -->
+		<snapshotRepository>
+			<id>nexus_repo</id>
+			<name>Mon Repo Nexus</name>
+			<url>http://localhost:9090/nexus-2.14.16-01/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<!-- download artifacts from this repo -->
+	<repositories>
+		<repository>
+			<id>nexus_repo</id>
+			<name>Mon Repo Nexus</name>
+			<url>http://localhost:9090/nexus-2.14.16-01/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+<!-- Configuration SCM pour la Release sur un repo GIT -->
+	<scm>
+		<url>https://github.com/tochyvn/luxiel-evaluation</url>
+		<connection>scm:git:https://github.com/tochyvn/luxiel-evaluation.git</connection>
+		<developerConnection>scm:git:https://github.com/tochyvn/luxiel-evaluation.git</developerConnection>
+	  <tag>v0.0.1</tag>
+  </scm>
+
+</project>
