@@ -1,5 +1,18 @@
 package lu.luxiel.luxielevaluation.controller;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,23 +30,8 @@ import lu.luxiel.luxielevaluation.exception.AlreadyExistEntityException;
 import lu.luxiel.luxielevaluation.exception.BadRequestException;
 import lu.luxiel.luxielevaluation.exception.SymptomeNotFoundException;
 import lu.luxiel.luxielevaluation.exception.handler.RestResponseEntityExceptionHandler;
-import lu.luxiel.luxielevaluation.repository.SymptomeRepository;
 import lu.luxiel.luxielevaluation.service.SymptomeService;
 import lu.luxiel.luxielevaluation.utils.Helper;
-
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-
-
-import java.util.Arrays;
-import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SymptomeControllerTest {
